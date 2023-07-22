@@ -5,7 +5,14 @@ using UnityEngine;
 public enum PlayerState {
     Idle,
     Run,
-    Jump
+    Jump,
+    Skill
+}
+
+public enum SkillState {
+    Skill1,
+    Skill2,
+    Skill3
 }
 
 public class PlayerController : MonoBehaviour
@@ -19,15 +26,16 @@ public class PlayerController : MonoBehaviour
     bool _isGround = false;
 
     [SerializeField] PlayerState _playerState;
+    SkillState _skillState;
 
-    UnityAnimationController _animController;
+    AnimationControllerBase _animController;
 
     // Start is called before the first frame update
     void Start()
     {
         rigi = this.GetComponent<Rigidbody2D>();
 
-        _animController = this.GetComponentInChildren<UnityAnimationController>();
+        _animController = this.GetComponentInChildren<AnimationControllerBase>();
 
         _animController._eventAction += (nameEvent) =>
         {
@@ -67,6 +75,11 @@ public class PlayerController : MonoBehaviour
 
 
     void UpdateState() {
+        if (!_isGround) {
+            _playerState = PlayerState.Jump;
+            return;
+        }
+
         if (movement.x != 0)
         {
             _playerState = PlayerState.Run;
