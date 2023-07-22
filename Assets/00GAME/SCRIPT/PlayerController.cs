@@ -1,0 +1,78 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class PlayerController : MonoBehaviour
+{
+    Vector2 movement;
+    [SerializeField] float _speed, _jumpForce;
+
+    Rigidbody2D rigi;
+
+    [SerializeField]
+    bool _isGround = false;
+    // Start is called before the first frame update
+    void Start()
+    {
+        rigi = this.GetComponent<Rigidbody2D>();
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        movement = Vector2.zero;
+        movement.x = Input.GetAxisRaw("Horizontal") * _speed;
+        movement.y = rigi.velocity.y;
+
+        if (Input.GetKeyDown(KeyCode.Space) && _isGround)
+        {
+            rigi.AddForce(new(0, _jumpForce));
+        }
+
+      
+        RaycastHit2D hit = Physics2D.Raycast(this.transform.position, Vector2.down, Vector2.down.magnitude);
+        Debug.DrawRay(this.transform.position, Vector2.down, Color.red);
+        if(hit.collider != null)
+        {
+            Debug.LogError(hit.collider.name);
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        rigi.velocity = movement;
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+       
+        if(collision.gameObject.CompareTag(CONSTANT.GroundTag))
+            _isGround = true;
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Ground"))
+            _isGround = false;
+    }
+
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        Debug.LogError("Bat dau va cham");
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        Debug.LogError("ket thuc va cham");
+    }
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        Debug.LogError("Stay !!!!");
+    }
+}
