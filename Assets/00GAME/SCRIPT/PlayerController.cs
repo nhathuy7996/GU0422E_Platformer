@@ -2,6 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum PlayerState {
+    Idle,
+    Run,
+    Jump
+}
+
 public class PlayerController : MonoBehaviour
 {
     Vector2 movement;
@@ -11,10 +17,29 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField]
     bool _isGround = false;
+
+    [SerializeField] PlayerState _playerState;
+
+    UnityAnimationController _animController;
+
     // Start is called before the first frame update
     void Start()
     {
         rigi = this.GetComponent<Rigidbody2D>();
+
+        _animController = this.GetComponentInChildren<UnityAnimationController>();
+
+        _animController._eventAction += (nameEvent) =>
+        {
+            if(nameEvent == "EndAnim") {
+                Debug.LogError("Do sth on end anim");
+            }
+
+            if (nameEvent == "test1")
+            {
+                Debug.LogError("Do sth on end test1");
+            }
+        };
     }
 
     // Update is called once per frame
@@ -27,8 +52,7 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space) && _isGround)
         {
             rigi.AddForce(new(0, _jumpForce));
-        }
-
+        } 
       
         RaycastHit2D hit = Physics2D.Raycast(this.transform.position, Vector2.down, Vector2.down.magnitude);
         Debug.DrawRay(this.transform.position, Vector2.down, Color.red);
@@ -36,6 +60,25 @@ public class PlayerController : MonoBehaviour
         {
             Debug.LogError(hit.collider.name);
         }
+
+        UpdateState();
+        UpdateAnimation();
+    }
+
+
+    void UpdateState() {
+        if (movement.x != 0)
+        {
+            _playerState = PlayerState.Run;
+        }
+        else
+        {
+            _playerState = PlayerState.Idle;
+        }
+    }
+
+    void UpdateAnimation() {
+        _animController.UpdateAnim(_playerState);
     }
 
     private void FixedUpdate()
