@@ -6,6 +6,12 @@ using System;
 
 public class UnityAnimationController : AnimationControllerBase
 {
+    protected Animator _animator;
+
+    private void Awake()
+    {
+        _animator = this.GetComponent<Animator>();
+    }
     public override void SetShootState(bool isShoot)
     {
         _animator.SetFloat("isShoot", isShoot ? 1: 0);

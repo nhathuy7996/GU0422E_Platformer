@@ -5,14 +5,11 @@ using UnityEngine;
 
 public abstract class AnimationControllerBase : MonoBehaviour
 {
-    protected Animator _animator;
+    
 
     public Action<string> _eventAction = null;
     // Start is called before the first frame update
-    protected void Awake()
-    {
-        _animator = this.GetComponent<Animator>();
-    }
+    
 
     public abstract void UpdateAnim(PlayerState playerState);
 

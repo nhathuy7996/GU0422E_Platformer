@@ -47,6 +47,11 @@ public class PlayerController : MonoBehaviour
             {
                 
             }
+
+            if (nameEvent == "footstep")
+            {
+                Debug.LogError("do sth");
+            }
         };
     }
 
