@@ -40,12 +40,12 @@ public class PlayerController : MonoBehaviour
         _animController._eventAction += (nameEvent) =>
         {
             if(nameEvent == "EndAnim") {
-                Debug.LogError("Do sth on end anim");
+              
             }
 
             if (nameEvent == "test1")
             {
-                Debug.LogError("Do sth on end test1");
+                
             }
         };
     }
@@ -56,6 +56,12 @@ public class PlayerController : MonoBehaviour
         movement = Vector2.zero;
         movement.x = Input.GetAxisRaw("Horizontal") * _speed;
         movement.y = rigi.velocity.y;
+
+        if(movement.x > 0) {
+            this.transform.localScale = new Vector3(1,1,1);
+        }else if (movement.x < 0) {
+            this.transform.localScale = new Vector3(-1, 1, 1);
+        }
 
         if (Input.GetKeyDown(KeyCode.Space) && _isGround)
         {
@@ -71,6 +77,8 @@ public class PlayerController : MonoBehaviour
 
         UpdateState();
         UpdateAnimation();
+
+        _animController.SetShootState(Input.GetKey(KeyCode.C));
     }
 
 

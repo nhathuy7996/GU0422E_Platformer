@@ -6,6 +6,11 @@ using System;
 
 public class UnityAnimationController : AnimationControllerBase
 {
+    public override void SetShootState(bool isShoot)
+    {
+        _animator.SetFloat("isShoot", isShoot ? 1: 0);
+    }
+
     public override void UpdateAnim(PlayerState playerState) {
         for (int i = 0; i<= (int)PlayerState.Jump; i++) {
             if((int)playerState == i) {
@@ -15,5 +20,4 @@ public class UnityAnimationController : AnimationControllerBase
         }
 
     }
-
 }

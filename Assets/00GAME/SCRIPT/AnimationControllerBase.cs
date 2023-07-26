@@ -16,6 +16,9 @@ public abstract class AnimationControllerBase : MonoBehaviour
 
     public abstract void UpdateAnim(PlayerState playerState);
 
+
+    public abstract void SetShootState(bool isShoot);
+
     public void CallEvent(string name)
     {
         _eventAction?.Invoke(name);
