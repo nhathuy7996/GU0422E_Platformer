@@ -7,7 +7,7 @@ public class SpineAnimationController : MonoBehaviour
 {
     SkeletonAnimation _animator;
 
-    [SerializeField] [SpineAnimation]//
+    [SerializeField] [SpineAnimation]
     string _animRun, _animShoot;
 
     // Start is called before the first frame update
